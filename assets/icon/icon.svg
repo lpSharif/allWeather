@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="g2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1e3c72" />
+      <stop offset="100%" stop-color="#2a5298" />
+    </linearGradient>
+    <clipPath id="round2">
+      <rect rx="200" ry="200" width="1024" height="1024" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#round2)">
+    <rect width="1024" height="1024" fill="url(#g2)" />
+    <!-- moon -->
+    <g transform="translate(680,220)">
+      <path d="M-60,-20 a120,120 0 1,0 180,40 a80,80 0 1,1 -180,-40z" fill="#f4f6fb" opacity="0.98" />
+    </g>
+    <!-- stars -->
+    <g fill="#ffffff" opacity="0.9">
+      <circle cx="120" cy="120" r="4" />
+      <circle cx="220" cy="80" r="3" />
+      <circle cx="340" cy="140" r="2.5" />
+      <circle cx="460" cy="60" r="3.5" />
+      <circle cx="560" cy="160" r="3" />
+    </g>
+    <!-- cloud silhouette -->
+    <g transform="translate(160,520)" opacity="0.9">
+      <ellipse cx="220" cy="100" rx="200" ry="100" fill="#ffffff" opacity="0.12" />
+      <ellipse cx="360" cy="80" rx="120" ry="70" fill="#ffffff" opacity="0.14" />
+      <ellipse cx="100" cy="80" rx="140" ry="80" fill="#ffffff" opacity="0.13" />
+    </g>
+    <!-- center emblem (A/W) -->
+    <g transform="translate(512,520)">
+      <rect x="-200" y="-220" width="400" height="240" rx="36" fill="#ffffff" opacity="0.06" />
+      <text x="0" y="-60" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="120" fill="#ffffff" opacity="0.95">AW</text>
+      <text x="0" y="50" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#ffffff" opacity="0.8">AllWeather</text>
+    </g>
+  </g>
+</svg>
