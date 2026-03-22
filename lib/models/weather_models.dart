@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 class CurrentWeather {
   final String city;
@@ -55,6 +56,7 @@ class CurrentWeather {
 class HourlyForecastEntry {
   final DateTime time;
   final double temp;
+  final double feelsLike;
   final String description;
   final String icon;
   final double windSpeed;
@@ -63,6 +65,7 @@ class HourlyForecastEntry {
   HourlyForecastEntry({
     required this.time,
     required this.temp,
+    required this.feelsLike,
     required this.description,
     required this.icon,
     required this.windSpeed,
@@ -73,6 +76,7 @@ class HourlyForecastEntry {
     return HourlyForecastEntry(
       time: DateTime.fromMillisecondsSinceEpoch((json['dt'] ?? 0) * 1000),
       temp: (json['temp'] ?? 0).toDouble(),
+      feelsLike: (json['feels_like'] ?? json['temp'] ?? 0).toDouble(),
       description: (json['weather'] != null && json['weather'].isNotEmpty) ? json['weather'][0]['description'] : '',
       icon: (json['weather'] != null && json['weather'].isNotEmpty) ? json['weather'][0]['icon'] : '01d',
       windSpeed: (json['wind_speed'] ?? 0).toDouble(),
@@ -108,3 +112,67 @@ class DailyForecastEntry {
 }
 
 double cToF(double c) => (c * 9 / 5) + 32;
+
+class WeatherAlert {
+  final String event;
+  final String senderName;
+  final String description;
+  final DateTime start;
+  final DateTime end;
+
+  WeatherAlert({
+    required this.event,
+    required this.senderName,
+    required this.description,
+    required this.start,
+    required this.end,
+  });
+
+  factory WeatherAlert.fromJson(Map<String, dynamic> json) {
+    return WeatherAlert(
+      event: json['event'] ?? 'Weather Alert',
+      senderName: json['sender_name'] ?? '',
+      description: json['description'] ?? '',
+      start: DateTime.fromMillisecondsSinceEpoch((json['start'] ?? 0) * 1000),
+      end: DateTime.fromMillisecondsSinceEpoch((json['end'] ?? 0) * 1000),
+    );
+  }
+
+  /// Returns a suitable icon + colour for the alert based on the event name.
+  static AlertStyle styleFor(String event) {
+    final e = event.toLowerCase();
+    if (e.contains('tornado')) {
+      return const AlertStyle(Icons.tornado, Color(0xFFB71C1C));
+    }
+    if (e.contains('hurricane') || e.contains('typhoon')) {
+      return const AlertStyle(Icons.cyclone, Color(0xFFB71C1C));
+    }
+    if (e.contains('thunder') || e.contains('lightning')) {
+      return const AlertStyle(Icons.thunderstorm, Color(0xFF6A1B9A));
+    }
+    if (e.contains('snow') || e.contains('blizzard') ||
+        e.contains('ice') || e.contains('freeze') || e.contains('frost')) {
+      return const AlertStyle(Icons.ac_unit, Color(0xFF0277BD));
+    }
+    if (e.contains('heat') || e.contains('hot')) {
+      return const AlertStyle(Icons.local_fire_department, Color(0xFFE65100));
+    }
+    if (e.contains('flood') || e.contains('rain')) {
+      return const AlertStyle(Icons.water, Color(0xFF01579B));
+    }
+    if (e.contains('wind') || e.contains('storm')) {
+      return const AlertStyle(Icons.air, Color(0xFF4E342E));
+    }
+    if (e.contains('fog') || e.contains('smoke') ||
+        e.contains('dust') || e.contains('haze')) {
+      return const AlertStyle(Icons.cloud, Color(0xFF37474F));
+    }
+    return const AlertStyle(Icons.warning_amber_rounded, Color(0xFFF57F17));
+  }
+}
+
+class AlertStyle {
+  final IconData icon;
+  final Color color;
+  const AlertStyle(this.icon, this.color);
+}
